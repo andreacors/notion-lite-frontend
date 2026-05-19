@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server"; 
 import { jwtVerify } from "jose"
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 
   const token = request.cookies.get('token')?.value;
 
   if(!token) {
-    return NextResponse.redirect(new URL('/home', request.url))
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   const secret = new TextEncoder().encode(process.env.JWT_SECRET)
@@ -20,6 +20,6 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-const config = {
+export const config = {
   matcher: ['/note/:path*']
 }
